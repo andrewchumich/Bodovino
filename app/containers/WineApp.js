@@ -1,7 +1,8 @@
 var React = require('react-native');
 var Redux = require('redux');
 var Main = require('../components/Main');
-var routes = require('../routes');
+var WineDetail = require('../components/WineDetail');
+var { MAIN, DETAIL } = require('../routes');
 var {
     connect
     } = require('react-redux/native');
@@ -23,7 +24,24 @@ var mock_wines = [
     origin: 'Napa, CA',
     description: 'so much flavor',
     image: 'http://example.com/images/barnyard.jpg'
+  },
+  {
+    id: 'b1',
+    name: 'Two Buck Chuck',
+    variety: 'Cabernet Sauvignon',
+    origin: 'Boise, ID',
+    description: 'very cheap!',
+    image: 'http://example.com/images/chuck.jpg'
+  },
+  {
+    id: 'c2',
+    name: 'Franzia',
+    variety: 'merlot',
+    origin: 'Napa, CA',
+    description: 'comes in a bag',
+    image: 'http://example.com/images/franzia.jpg'
   }
+
 ];
 
 
@@ -39,24 +57,29 @@ class WineApp extends Component {
     render() {
         return (
           <Navigator
-            initialRouteStack={routes}
-            renderScene={(route, navigator) => {
-              switch(route.index) {
-                case 0:
-                  return (
-                      <Main navigator={navigator}/>
-                    )
-                default: 
-                  return (
-                      <Main
-                        navigator={navigator}
-                      />
-                    )
-                }
-              }
-            }
+            initialRoute={{ id: MAIN }}
+            renderScene={this._renderScene}
           />
         );
+    }
+
+    _renderScene(route, navigator) {
+        switch(route.id) {
+          case MAIN:
+            return (
+                <Main navigator={navigator}/>
+              )
+          case DETAIL:
+            return (
+              <WineDetail navigator={navigator} wine={route.wine} />
+            )
+          default: 
+            return (
+                <Main
+                  navigator={navigator}
+                />
+              )
+          }
     }
 }
 

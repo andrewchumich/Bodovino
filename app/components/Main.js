@@ -1,5 +1,7 @@
-var React = require('react-native')
-var Redux = require('redux')
+var React = require('react-native');
+var Redux = require('redux');
+var { DETAIL } = require('../routes');
+
 
 var {
     connect
@@ -38,9 +40,14 @@ class Main extends Component {
         )
     }
 
-    _detailView(_id) {
+    _detailView(wine) {
         // go to detail view of _id
-        console.log('go to detail view of', _id);
+        console.log('go to detail view of', wine);
+        // we will also want to pass user data for the wine
+        this.props.navigator.push({
+            id: DETAIL,
+            wine
+        })
     }
 
     _renderRow(rowData, sectionID, rowID) {
@@ -49,7 +56,7 @@ class Main extends Component {
         var _id = rowData._id;
         return (
             <View>
-                <TouchableOpacity onPress={() => this._detailView(_id)}>
+                <TouchableOpacity onPress={() => this._detailView(rowData)}>
                     <Text>
                         {name} - {variety}
                     </Text>

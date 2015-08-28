@@ -4,15 +4,6 @@ var { SORT_BY_NAME_ASC, SORT_BY_NAME_DESC, ADD_WINES } = require('../constants/A
 
 var initialState = {
   wines: [
-    {
-      id: undefined,
-      _id: 0,
-      name: '',
-      variety: '',
-      origin: '',
-      description: '',
-      image: ''
-    }
   ],
   sortBy: undefined
 }
@@ -40,9 +31,9 @@ function wines(state = initialState, action) {
     console.log(new_wines);
     return {...state, wines: [...state.wines.concat(new_wines)] };
   case SORT_BY_NAME_DESC:
-    return {...state, wines: [...state.wines.sort((a, b) => b.user > a.user ? 1 : -1)], sortBy: 'NAME_DESC'}
+    return {...state, wines: [...state.wines.sort((a, b) => b.name > a.name ? 1 : -1)], sortBy: 'NAME_DESC'}
   case SORT_BY_NAME_ASC:
-    return {...state, wines: [...state.wines.sort((a, b) => a.user > b.user ? 1 : -1)], sortBy: 'NAME_ASC'}
+    return {...state, wines: [...state.wines.sort((a, b) => a.name > b.name ? 1 : -1)], sortBy: 'NAME_ASC'}
   default:
     return state;
   }
