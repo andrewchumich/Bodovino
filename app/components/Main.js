@@ -5,10 +5,6 @@ var {
     connect
     } = require('react-redux/native')
 
-var window = require('../util/window')
-var { width, height } = window.get()
-
-
 var {
     Component,
     View,
@@ -25,22 +21,37 @@ class Main extends Component {
         super(props)
     }
 
+
     render() {
+        var { wines } = this.props;
+        console.log(wines);
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        var wine_list = ds.cloneWithRows(wines.wines);
         return (
             <View style={{flexDirection: 'row', height: 200, padding: 20}}>
-                <Text>HELLOO</Text>
+                <Text>Wines</Text>
+                <ListView 
+                    dataSource={wine_list}
+                    renderRow={this._renderRow.bind(this)}
+                />
             </View>
         )
     }
 
+    _detailView(_id) {
+        // go to detail view of _id
+        console.log('go to detail view of', _id);
+    }
+
     _renderRow(rowData, sectionID, rowID) {
-        var score = rowData.score;
-        var user = rowData.user;
+        var name = rowData.name;
+        var variety = rowData.variety;
+        var _id = rowData._id;
         return (
             <View>
-                <TouchableOpacity onPress={() => this._sortBy()}>
+                <TouchableOpacity onPress={() => this._detailView(_id)}>
                     <Text>
-                        {score} - {user}
+                        {name} - {variety}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -49,8 +60,12 @@ class Main extends Component {
 }
 
 function mapStateToProps(state) {
-    return state;
+    return {
+        wines: state.wines
+    };
 }
 
+// connect uses the mapStateToProps to hook up a component to 
+// listen to a specific slice of the state
 Main = connect(mapStateToProps)(Main);
 module.exports = Main

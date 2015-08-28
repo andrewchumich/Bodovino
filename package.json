@@ -6,6 +6,8 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "immutable": "^3.7.4",
+    "normalizr": "^1.0.0",
     "react": "^0.13.3",
     "react-native": "^0.10.0",
     "react-redux": "^1.0.1",

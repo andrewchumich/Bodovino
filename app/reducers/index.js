@@ -1,2 +1,1 @@
-exports.pinballapp = require('./pinballapp');
-exports.liveScore = require('./liveScore');
+exports.wines = require('./wines');
