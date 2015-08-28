@@ -1,7 +1,7 @@
 var React = require('react-native');
 var Redux = require('redux');
 var { DETAIL } = require('../routes');
-
+var styles = require('../styles/main.js');
 
 var {
     connect
@@ -10,11 +10,13 @@ var {
 var {
     Component,
     View,
+    ScrollView,
     ListView,
     Text,
     StyleSheet,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
     } = React
 
 
@@ -26,23 +28,19 @@ class Main extends Component {
 
     render() {
         var { wines } = this.props;
-        console.log(wines);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         var wine_list = ds.cloneWithRows(wines.wines);
         return (
-            <View style={{flexDirection: 'row', height: 200, padding: 20}}>
-                <Text>Wines</Text>
-                <ListView 
-                    dataSource={wine_list}
-                    renderRow={this._renderRow.bind(this)}
-                />
-            </View>
+            <ListView 
+                style={styles.list}
+                dataSource={wine_list}
+                renderRow={this._renderRow.bind(this)}
+                renderSeparator={() => <View style={styles.separator} />}
+            />
         )
     }
 
     _detailView(wine) {
-        // go to detail view of _id
-        console.log('go to detail view of', wine);
         // we will also want to pass user data for the wine
         this.props.navigator.push({
             id: DETAIL,
@@ -53,24 +51,42 @@ class Main extends Component {
     _renderRow(rowData, sectionID, rowID) {
         var name = rowData.name;
         var variety = rowData.variety;
-        var _id = rowData._id;
+        var id = rowData.id;
+        var rating = this.props.ratings[id];
+        var checkedStatus, colorSource;
+        if(rating !== undefined && rating.checked === true) {
+            checkedStatus = <Text>Drank</Text>;
+        }
+        if(rowData.color === 'red') {
+            colorSource = require('image!bodovino-red');
+        } else {
+            colorSource = require('image!bodovino-white');
+        }
         return (
-            <View>
-                <TouchableOpacity onPress={() => this._detailView(rowData)}>
-                    <Text>
-                        {name} - {variety}
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableHighlight onPress={() => this._detailView(rowData)}>
+                <View>
+                    <View style={styles.rowContainer}>
+                        <Image source={colorSource} style={styles.thumb}/>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.title} numberOfLines={1}>
+                                {name}
+                            </Text>
+                            {checkedStatus}
+                        </View>
+                    </View>
+                </View>
+            </TouchableHighlight>
             );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        wines: state.wines
+        wines: state.wines,
+        ratings: state.ratings
     };
 }
+
 
 // connect uses the mapStateToProps to hook up a component to 
 // listen to a specific slice of the state

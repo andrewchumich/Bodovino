@@ -3,6 +3,9 @@ var { normalize, Schema, arrayOf } = require('normalizr');
 const wine = new Schema('wines');
 const rating = new Schema('ratings');
 
+rating.define({
+  id: wine
+});
 
 exports.wine = wine;
 exports.rating = rating;

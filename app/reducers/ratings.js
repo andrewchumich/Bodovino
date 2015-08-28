@@ -16,7 +16,7 @@ var sample_rating = {
 function wines(state = initialState, action) {
   switch (action.type) {
   case SET_RATING:
-    return {...state, ...action.payload };
+    return {...state, ...action.payload.entities.wines };
   default:
     return state;
   }

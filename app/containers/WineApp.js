@@ -62,7 +62,8 @@ class WineApp extends Component {
             description: wine.wine_description,
             variety: wine.wine_variety,
             origin: wine.wine_origin,
-            image: wine.wine_image.guid
+            image: wine.wine_image.guid,
+            color: wine.wine_color
           }
         });
         // normalize the wine data so it is flat and organized
@@ -84,7 +85,8 @@ class WineApp extends Component {
         switch(route.id) {
           case MAIN:
             return (
-                <Main navigator={navigator}/>
+                <Main navigator={navigator}
+                />
               )
           case DETAIL:
             return (
