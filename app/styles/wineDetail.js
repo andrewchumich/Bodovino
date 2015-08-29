@@ -2,37 +2,29 @@ var { StyleSheet } = require('react-native');
 
 module.exports = StyleSheet.create({
   thumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10
+    width: 40,
+    height: 40,
+    marginRight: 15
   },
   fullImage: {
     width: 160,
     height: 160,
-    marginRight: 10
+    marginRight: 10,
+    borderRadius: 10
   },
   separator: {
     height: 1,
     backgroundColor: '#342830'
   },
-  price: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#48BBEC'
-  },
   title: {
-    fontSize: 20,
-    color: '#fff'
+    fontSize: 25,
+    color: '#fff',
+    paddingBottom: 10
   },
-  description: {
+  detailsList: {
     fontSize: 15,
     color: '#fff'
   },
-  rowContainer: {
-    flexDirection: 'row',
-    padding: 10,
-    backgroundColor: '#b7b7b7'
-  },  
   textContainer: {
     flexDirection: 'column',
     flex: 1,
@@ -40,10 +32,18 @@ module.exports = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    flexDirection: 'column',
     padding: 10,
     marginTop: 22,
     backgroundColor: '#b7b7b7'    
+  },
+  infoBox: {
+    flexDirection: 'row',
+    paddingBottom: 10
+  },
+  wineProperties: {
+    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
 

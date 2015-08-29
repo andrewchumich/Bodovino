@@ -49,9 +49,7 @@ class Main extends Component {
     }
 
     _renderRow(rowData, sectionID, rowID) {
-        var name = rowData.name;
-        var variety = rowData.variety;
-        var id = rowData.id;
+        var { name, variety, origin, id } = rowData; 
         var rating = this.props.ratings[id];
         var checkedStatus, colorSource;
         if(rating !== undefined && rating.checked === true) {
@@ -70,6 +68,9 @@ class Main extends Component {
                         <View style={styles.textContainer}>
                             <Text style={styles.title} numberOfLines={1}>
                                 {name}
+                            </Text>
+                            <Text style={styles.description} numberOfLines={1}>
+                                {origin}
                             </Text>
                             {checkedStatus}
                         </View>

@@ -3,6 +3,7 @@ var Redux = require('redux');
 var { setRating } = require('../actions/RatingActions');
 var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
+var styles = require('../styles/wineDetail');
 
 var {
     connect
@@ -13,7 +14,6 @@ var {
     View,
     ListView,
     Text,
-    StyleSheet,
     TouchableOpacity,
     TouchableHighlight,
     Image
@@ -31,13 +31,32 @@ class Main extends Component {
         if(rating === undefined) {
             rating = { score: undefined }
         }
+        if(wine.color === 'red') {
+            colorSource = require('image!bodovino-red');
+        } else {
+            colorSource = require('image!bodovino-white');
+        }
         return (
-            <View style={{flexDirection: 'column', height: 100, padding: 20}}>
-                <Image 
-                    style={{width: 50, height: 75, resizeMode: 'contain'}}
-                    source={{uri: wine.image}}
-                />
-                <Text>{ wine.name } - { wine.origin }</Text>
+            <View style={styles.detail}>
+                <Text style={styles.title}>{ wine.name }</Text>
+                <View style={styles.infoBox}>
+                    <Image 
+                        style={styles.fullImage}
+                        source={{uri: wine.image}}
+                    />
+                    <View style={styles.detailsList}>
+                        <Text style={styles.wineProperties}>{ wine.origin }</Text>
+                        <View style={styles.wineProperties}>
+                            <Image source={colorSource} style={styles.thumb}/>
+                            <Text >{ wine.variety }</Text>
+                        </View>
+                        <Text style={styles.wineProperties}>{ wine.description }</Text>
+                    </View>
+                </View>
+                <View styles={styles.description}>
+                    <Text style={styles.wineProperties}>{ wine.description }</Text>
+                </View>
+                <View style={styles.separator} />
                 <TouchableOpacity onPress={() => this._rateWine(wine)}>
                     <Text>RATE - {rating.score}</Text>
                 </TouchableOpacity>
