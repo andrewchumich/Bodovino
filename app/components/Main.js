@@ -30,6 +30,8 @@ class Main extends Component {
     render() {
         var { wines, form } = this.props;
         var filtered_wines = {};
+        // If there is a filter from wineSearch, use it to filter the wines list
+        // else, use the entire list
         if(form.wineSearch && form.wineSearch.name && form.wineSearch.name.value !== '') {
             var regex = new RegExp(form.wineSearch.name.value.trim(), 'i');
             for(wine in wines.wines) {
@@ -38,18 +40,26 @@ class Main extends Component {
                     filtered_wines[wine] = wines.wines[wine]
                 }
             }
+            // ListView will remove the entire component (with its header) if 
+            // there are no items in the list. We need to add an undefined item
+            // in filtered_wines so it will still render the filter header
+            // SEE: _renderRow
             if(Object.keys(filtered_wines).length === 0)  {
                 filtered_wines = {0: undefined }
             }
         } else {
             filtered_wines = {...wines.wines};
         }
+        // as long as we always return new objects from our reducers (using Immutable.js would ensure this)
+        // we only need to check reference equality to determine if a row needs re-rendered
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         var wine_list = ds.cloneWithRows(filtered_wines);
         return (
             <View style={{flex: 1}}>
                 <ListView
                     dataSource={wine_list}
+                    // if we want access to props (or anything specific to the current Main class object)
+                    // we need to bind `this` to the _renderRow function
                     renderRow={this._renderRow.bind(this)}
                     renderSeparator={() => <View style={styles.separator} />}
                     renderSectionHeader={() => <SearchBar />}
@@ -67,6 +77,7 @@ class Main extends Component {
     }
 
     _renderRow(rowData, sectionID, rowID) {
+        // rowData should only be undefined when the filter returns an empty list
         if(rowData === undefined) {
             return <View></View>;
         }
@@ -77,6 +88,7 @@ class Main extends Component {
         if(rating !== undefined && rating.checked === true) {
             ratingChild = <StarRating rating={rating} size="small"/>
         }
+        // React Native does not allow you to use a variable for the require statement
         if(rowData.color === 'red') {
             colorSource = require('image!bodovino-red');
         } else {
