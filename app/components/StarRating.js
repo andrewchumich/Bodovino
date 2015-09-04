@@ -23,32 +23,48 @@ class StarRating extends Component {
         if(numStars === undefined || numStars === null || numStars < 1) {
             numStars = 5;
         }
-        var stars_list = [];
+        var starsList = [];
         for (var i = 0; i < numStars; i++) {
-            stars_list.push(this._renderStar(i+1));
+            starsList.push(this._renderStar(i+1));
         };
         return (
             <View style={styles.ratingContainer}>
-                {stars_list}
+                {starsList}
             </View>
         )
     }
 
     _renderStar(value) {
-        var { rating, onRate} = this.props;
-        var style = {};
-        var star_image;
+        var { rating, onRate, size } = this.props;
+        var starStyle = styles.thumb;
+        var starImage;
         if(value <= rating.score) {
-            style = styles.selected;
-            star_image = require('image!yellow-star');
+            starImage = require('image!yellow-star');
         } else {
-            star_image = require('image!grey-star');
+            starImage = require('image!grey-star');
+        }
+        if(size !== undefined && size !== null) {
+            switch(size) {
+                case 'small':
+                    starStyle = styles.smallImage;
+                    break;
+                default:    
+                    starStyle = styles.thumb;
+                    break;
+            }
         }
         return (
-                <TouchableOpacity style={styles.rating} onPress={() => onRate(value)}>
-                    <Image source={star_image} style={styles.thumb}/>
+                <TouchableOpacity style={styles.rating} onPress={() => this._onRate(value)}>
+                    <Image source={starImage} style={starStyle}/>
                 </TouchableOpacity>
             );
+    }
+
+    _onRate(value) {
+        var { onRate } = this.props;
+        if(onRate) {
+            onRate(value);
+        }
     }
 
 }
@@ -56,7 +72,8 @@ class StarRating extends Component {
 StarRating.propTypes = {
     rating: React.PropTypes.object.isRequired,
     onRate: React.PropTypes.func,
-    numStars: React.PropTypes.number
+    numStars: React.PropTypes.number,
+    size: React.PropTypes.string
 }
 
 module.exports = StarRating

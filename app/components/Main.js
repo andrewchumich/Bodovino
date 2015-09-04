@@ -75,9 +75,7 @@ class Main extends Component {
         var checkedStatus, colorSource;
         var ratingChild;
         if(rating !== undefined && rating.checked === true) {
-            checkedStatus = <Text>Drank</Text>;
-        } else {
-            ratingChild = <StarRating rating={rating} />
+            ratingChild = <StarRating rating={rating} size="small"/>
         }
         if(rowData.color === 'red') {
             colorSource = require('image!bodovino-red');
@@ -95,9 +93,8 @@ class Main extends Component {
                         <Text style={styles.description} numberOfLines={1}>
                             {origin}
                         </Text>
-                        {checkedStatus}
+                        {ratingChild}
                     </View>
-                    {ratingChild}
                 </View>
             </TouchableHighlight>
             );

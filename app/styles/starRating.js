@@ -9,11 +9,14 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
   },
   rating: {
-    padding: 20
   },
   thumb: {
     width: 30,
     height: 30,
     marginRight: 5
+  },
+  smallImage: {
+    width: 15,
+    height: 15
   }
 });
