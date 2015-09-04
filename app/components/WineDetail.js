@@ -44,6 +44,7 @@ class Main extends Component {
                     <Image 
                         style={styles.fullImage}
                         source={{uri: wine.image}}
+                        resizeMode='contain'
                     />
                     <View style={styles.detailsList}>
                         <Text style={styles.wineProperties}>{ wine.origin }</Text>
