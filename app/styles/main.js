@@ -38,12 +38,14 @@ module.exports = StyleSheet.create({
     flex: 1,
     padding: 10
   },
-  detail: {
-    flex: 1,
-    flexDirection: 'column',
+  searchBar: {
+    alignItems: 'center',
+    backgroundColor: '#37202F',
+    color: '#a29bb9',
     padding: 10,
-    marginTop: 22,
-    backgroundColor: '#b7b7b7'    
+    height: 40
+  },
+  searchText: {
   }
 });
 

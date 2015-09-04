@@ -2,6 +2,7 @@ var React = require('react-native');
 var Redux = require('redux');
 var { DETAIL } = require('../routes');
 var styles = require('../styles/main.js');
+var SearchBar = require('./SearchBar');
 
 var {
     connect
@@ -25,18 +26,34 @@ class Main extends Component {
         super(props)
     }
 
-
     render() {
-        var { wines } = this.props;
+        var { wines, form } = this.props;
+        var filtered_wines = {};
+        if(form.wineSearch && form.wineSearch.name && form.wineSearch.name.value !== '') {
+            var regex = new RegExp(form.wineSearch.name.value.trim(), 'i');
+            for(wine in wines.wines) {
+                if(wines.wines[wine].name.search(regex) > -1) {
+                    filtered_wines = {...filtered_wines };
+                    filtered_wines[wine] = wines.wines[wine]
+                }
+            }
+            if(Object.keys(filtered_wines).length === 0)  {
+                filtered_wines = {0: undefined }
+            }
+        } else {
+            filtered_wines = {...wines.wines};
+        }
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        var wine_list = ds.cloneWithRows(wines.wines);
+        var wine_list = ds.cloneWithRows(filtered_wines);
         return (
-            <ListView 
-                style={styles.list}
-                dataSource={wine_list}
-                renderRow={this._renderRow.bind(this)}
-                renderSeparator={() => <View style={styles.separator} />}
-            />
+            <View style={{flex: 1}}>
+                <ListView
+                    dataSource={wine_list}
+                    renderRow={this._renderRow.bind(this)}
+                    renderSeparator={() => <View style={styles.separator} />}
+                    renderSectionHeader={() => <SearchBar />}
+                />
+            </View>
         )
     }
 
@@ -49,6 +66,9 @@ class Main extends Component {
     }
 
     _renderRow(rowData, sectionID, rowID) {
+        if(rowData === undefined) {
+            return <View></View>;
+        }
         var { name, variety, origin, id } = rowData; 
         var rating = this.props.ratings[id];
         var checkedStatus, colorSource;
@@ -62,18 +82,16 @@ class Main extends Component {
         }
         return (
             <TouchableHighlight onPress={() => this._detailView(rowData)}>
-                <View>
-                    <View style={styles.rowContainer}>
-                        <Image source={colorSource} style={styles.thumb}/>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.title} numberOfLines={1}>
-                                {name}
-                            </Text>
-                            <Text style={styles.description} numberOfLines={1}>
-                                {origin}
-                            </Text>
-                            {checkedStatus}
-                        </View>
+                <View style={styles.rowContainer}>
+                    <Image source={colorSource} style={styles.thumb}/>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title} numberOfLines={1}>
+                            {name}
+                        </Text>
+                        <Text style={styles.description} numberOfLines={1}>
+                            {origin}
+                        </Text>
+                        {checkedStatus}
                     </View>
                 </View>
             </TouchableHighlight>
@@ -84,7 +102,8 @@ class Main extends Component {
 function mapStateToProps(state) {
     return {
         wines: state.wines,
-        ratings: state.ratings
+        ratings: state.ratings,
+        form: state.form
     };
 }
 
