@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "bodovino-white-3.png"
+      "filename" : "grey-star.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "bodovino-white-1.png"
+      "filename" : "grey-star-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "bodovino-white-2.png"
+      "filename" : "grey-star-2.png"
     }
   ],
   "info" : {

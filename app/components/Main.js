@@ -3,6 +3,7 @@ var Redux = require('redux');
 var { DETAIL } = require('../routes');
 var styles = require('../styles/main.js');
 var SearchBar = require('./SearchBar');
+var StarRating = require('./StarRating');
 
 var {
     connect
@@ -72,8 +73,11 @@ class Main extends Component {
         var { name, variety, origin, id } = rowData; 
         var rating = this.props.ratings[id];
         var checkedStatus, colorSource;
+        var ratingChild;
         if(rating !== undefined && rating.checked === true) {
             checkedStatus = <Text>Drank</Text>;
+        } else {
+            ratingChild = <StarRating rating={rating} />
         }
         if(rowData.color === 'red') {
             colorSource = require('image!bodovino-red');
@@ -93,6 +97,7 @@ class Main extends Component {
                         </Text>
                         {checkedStatus}
                     </View>
+                    {ratingChild}
                 </View>
             </TouchableHighlight>
             );

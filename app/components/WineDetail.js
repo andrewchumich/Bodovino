@@ -4,6 +4,7 @@ var { setRating } = require('../actions/RatingActions');
 var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
 var styles = require('../styles/wineDetail');
+var StarRating = require('./StarRating');
 
 var {
     connect
@@ -56,17 +57,17 @@ class Main extends Component {
                     <Text style={styles.wineProperties}>{ wine.description }</Text>
                 </View>
                 <View style={styles.separator} />
-                <TouchableOpacity onPress={() => this._rateWine(wine)}>
-                    <Text>RATE - {rating.score}</Text>
-                </TouchableOpacity>
+                <StarRating rating={rating} onRate={this._rateWine.bind(this)} />
             </View>
         )
     }
 
-    _rateWine(wine) {
+    _rateWine(score) {
+        var { wine } = this.props;
+        console.log(score);
         var rating = {
             id: wine.id,
-            score: 4,
+            score: score,
             checked: true
         }
         var normalized_rating = normalize(rating, Schema.wine);

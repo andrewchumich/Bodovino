@@ -54,7 +54,7 @@ class WineApp extends Component {
     }
     // here is where we will load the data from the server and set the initial state
     componentWillMount () {
-      fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine').then((response) => {
+      fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine&filter[posts_per_page]=50').then((response) => {
         var new_wines = JSON.parse(response._bodyText).map((wine) => {
           return {
             id: wine.ID,
