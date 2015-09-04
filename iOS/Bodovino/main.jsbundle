@@ -52230,7 +52230,7 @@ _get(Object.getPrototypeOf(WineApp.prototype),'constructor',this).call(this,prop
 
 
 function componentWillMount(){var _this=this;
-fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine').then(function(response){
+fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine&filter[posts_per_page]=50').then(function(response){
 var new_wines=JSON.parse(response._bodyText).map(function(wine){
 return {
 id:wine.ID,
@@ -52282,11 +52282,12 @@ navigator:navigator}));}}}]);return WineApp;})(Component);
 WineApp = connect(function(state){return state;})(WineApp);
 module.exports = WineApp;
 });
-__d('Bodovino/app/components/Main.js',["image!bodovino-red","image!bodovino-white","react-native/Libraries/react-native/react-native.js","redux/lib/index.js","Bodovino/app/routes.js","Bodovino/app/styles/main.js","Bodovino/app/components/SearchBar.js","react-redux/native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var React=require('react-native/Libraries/react-native/react-native.js');
+__d('Bodovino/app/components/Main.js',["image!bodovino-red","image!bodovino-white","react-native/Libraries/react-native/react-native.js","redux/lib/index.js","Bodovino/app/routes.js","Bodovino/app/styles/main.js","Bodovino/app/components/SearchBar.js","Bodovino/app/components/StarRating.js","react-redux/native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var React=require('react-native/Libraries/react-native/react-native.js');
 var Redux=require('redux/lib/index.js');var _require=
 require('Bodovino/app/routes.js');var DETAIL=_require.DETAIL;
 var styles=require('Bodovino/app/styles/main.js');
-var SearchBar=require('Bodovino/app/components/SearchBar.js');var _require2=
+var SearchBar=require('Bodovino/app/components/SearchBar.js');
+var StarRating=require('Bodovino/app/components/StarRating.js');var _require2=
 
 
 
@@ -52356,8 +52357,9 @@ return React.createElement(View,null);}var
 name=rowData.name;var variety=rowData.variety;var origin=rowData.origin;var id=rowData.id;
 var rating=this.props.ratings[id];
 var checkedStatus,colorSource;
+var ratingChild;
 if(rating !== undefined && rating.checked === true){
-checkedStatus = React.createElement(Text,null,'Drank');}
+ratingChild = React.createElement(StarRating,{rating:rating,size:'small'});}
 
 if(rowData.color === 'red'){
 colorSource = require('image!bodovino-red');}else 
@@ -52375,7 +52377,7 @@ name),
 React.createElement(Text,{style:styles.description,numberOfLines:1},
 origin),
 
-checkedStatus))));}}]);return Main;})(Component);
+ratingChild))));}}]);return Main;})(Component);
 
 
 
@@ -73459,16 +73461,130 @@ var connect=_createAll.connect;
 exports.Provider = Provider;
 exports.connect = connect;
 });
+__d('Bodovino/app/components/StarRating.js',["image!yellow-star","image!grey-star","react-native/Libraries/react-native/react-native.js","redux/lib/index.js","Bodovino/app/actions/RatingActions.js","Bodovino/app/styles/starRating.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var React=require('react-native/Libraries/react-native/react-native.js');
+var Redux=require('redux/lib/index.js');var _require=
+require('Bodovino/app/actions/RatingActions.js');var setRating=_require.setRating;
+var styles=require('Bodovino/app/styles/starRating.js');var 
+
+
+Component=
+
+
+
+
+
+React.Component;var View=React.View;var Text=React.Text;var TouchableOpacity=React.TouchableOpacity;var TouchableHighlight=React.TouchableHighlight;var Image=React.Image;var 
+
+
+StarRating=(function(_Component){_inherits(StarRating,_Component);
+function StarRating(props){_classCallCheck(this,StarRating);
+_get(Object.getPrototypeOf(StarRating.prototype),'constructor',this).call(this,props);}_createClass(StarRating,[{key:'render',value:
+
+
+function render(){var _props=
+this.props;var rating=_props.rating;var onRate=_props.onRate;var numStars=_props.numStars;
+if(numStars === undefined || numStars === null || numStars < 1){
+numStars = 5;}
+
+var starsList=[];
+for(var i=0;i < numStars;i++) {
+starsList.push(this._renderStar(i + 1));}
+;
+return (
+React.createElement(View,{style:styles.ratingContainer},
+starsList));}},{key:'_renderStar',value:
+
+
+
+
+function _renderStar(value){var _this=this;var _props2=
+this.props;var rating=_props2.rating;var onRate=_props2.onRate;var size=_props2.size;
+var starStyle=styles.thumb;
+var starImage;
+if(value <= rating.score){
+starImage = require('image!yellow-star');}else 
+{
+starImage = require('image!grey-star');}
+
+if(size !== undefined && size !== null){
+switch(size){
+case 'small':
+starStyle = styles.smallImage;
+break;
+default:
+starStyle = styles.thumb;
+break;}}
+
+
+return (
+React.createElement(TouchableOpacity,{style:styles.rating,onPress:function(){return _this._onRate(value);}},
+React.createElement(Image,{source:starImage,style:starStyle})));}},{key:'_onRate',value:
+
+
+
+
+function _onRate(value){var 
+onRate=this.props.onRate;
+if(onRate){
+onRate(value);}}}]);return StarRating;})(Component);
+
+
+
+
+
+StarRating.propTypes = {
+rating:React.PropTypes.object.isRequired,
+onRate:React.PropTypes.func,
+numStars:React.PropTypes.number,
+size:React.PropTypes.string};
+
+
+module.exports = StarRating;
+});
+__d('Bodovino/app/actions/RatingActions.js',["Bodovino/app/constants/ActionTypes.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var types=require('Bodovino/app/constants/ActionTypes.js');
+
+
+exports.setRating = function(payload){
+return {
+type:types.SET_RATING,
+payload:payload};};
+});
+__d('Bodovino/app/styles/starRating.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _require=require('react-native/Libraries/react-native/react-native.js');var StyleSheet=_require.StyleSheet;
+
+module.exports = StyleSheet.create({
+selected:{
+fontSize:50},
+
+ratingContainer:{
+flex:1,
+flexDirection:'row'},
+
+rating:{},
+
+thumb:{
+width:30,
+height:30,
+marginRight:5},
+
+smallImage:{
+width:15,
+height:15}});
+});
+__d('image!yellow-star',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Library/WebServer/Documents/bodovino-app/iOS/Images.xcassets/yellow-star.imageset/yellow-star.png","uri":"yellow-star","width":149,"height":149,"deprecated":true};
+});
+__d('image!grey-star',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Library/WebServer/Documents/bodovino-app/iOS/Images.xcassets/grey-star.imageset/grey-star.png","uri":"grey-star","width":149,"height":149,"deprecated":true};
+});
 __d('image!bodovino-red',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Library/WebServer/Documents/bodovino-app/iOS/Images.xcassets/bodovino-red.imageset/bodovino-red.png","uri":"bodovino-red","width":300,"height":300,"deprecated":true};
 });
-__d('image!bodovino-white',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Library/WebServer/Documents/bodovino-app/iOS/Images.xcassets/bodovino-white.imageset/bodovino-white.png","uri":"bodovino-white","width":210,"height":210,"deprecated":true};
+__d('image!bodovino-white',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Library/WebServer/Documents/bodovino-app/assets/images/bodovino-white.png","uri":"bodovino-white","width":210,"height":210,"deprecated":true};
 });
-__d('Bodovino/app/components/WineDetail.js',["image!bodovino-red","image!bodovino-white","react-native/Libraries/react-native/react-native.js","redux/lib/index.js","Bodovino/app/actions/RatingActions.js","normalizr/lib/index.js","Bodovino/app/schema.js","Bodovino/app/styles/wineDetail.js","react-redux/native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var React=require('react-native/Libraries/react-native/react-native.js');
+__d('Bodovino/app/components/WineDetail.js',["image!bodovino-red","image!bodovino-white","react-native/Libraries/react-native/react-native.js","redux/lib/index.js","Bodovino/app/actions/RatingActions.js","normalizr/lib/index.js","Bodovino/app/schema.js","Bodovino/app/styles/wineDetail.js","Bodovino/app/components/StarRating.js","react-redux/native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var React=require('react-native/Libraries/react-native/react-native.js');
 var Redux=require('redux/lib/index.js');var _require=
 require('Bodovino/app/actions/RatingActions.js');var setRating=_require.setRating;var _require2=
 require('normalizr/lib/index.js');var normalize=_require2.normalize;var arrayOf=_require2.arrayOf;
 var Schema=require('Bodovino/app/schema.js');
-var styles=require('Bodovino/app/styles/wineDetail.js');var _require3=
+var styles=require('Bodovino/app/styles/wineDetail.js');
+var StarRating=require('Bodovino/app/components/StarRating.js');var _require3=
 
 
 
@@ -73491,7 +73607,7 @@ _get(Object.getPrototypeOf(Main.prototype),'constructor',this).call(this,props);
 
 
 
-function render(){var _this=this;var _props=
+function render(){var _props=
 this.props;var wine=_props.wine;var rating=_props.rating;
 if(rating === undefined){
 rating = {score:undefined};}
@@ -73507,7 +73623,9 @@ React.createElement(Text,{style:styles.title},wine.name),
 React.createElement(View,{style:styles.infoBox},
 React.createElement(Image,{
 style:styles.fullImage,
-source:{uri:wine.image}}),
+source:{uri:wine.image},
+resizeMode:'contain',
+backgroundColor:'#ffffff'}),
 
 React.createElement(View,{style:styles.detailsList},
 React.createElement(Text,{style:styles.wineProperties},wine.origin),
@@ -73521,17 +73639,17 @@ React.createElement(View,{styles:styles.description},
 React.createElement(Text,{style:styles.wineProperties},wine.description)),
 
 React.createElement(View,{style:styles.separator}),
-React.createElement(TouchableOpacity,{onPress:function(){return _this._rateWine(wine);}},
-React.createElement(Text,null,'RATE - ',rating.score))));}},{key:'_rateWine',value:
+React.createElement(StarRating,{rating:rating,onRate:this._rateWine.bind(this)})));}},{key:'_rateWine',value:
 
 
 
 
-
-function _rateWine(wine){
+function _rateWine(score){var 
+wine=this.props.wine;
+console.log(score);
 var rating={
 id:wine.id,
-score:4,
+score:score,
 checked:true};
 
 var normalized_rating=normalize(rating,Schema.wine);
@@ -73549,14 +73667,6 @@ rating:state.ratings[props.wine.id]};}
 
 Main = connect(mapStateToProps)(Main);
 module.exports = Main;
-});
-__d('Bodovino/app/actions/RatingActions.js',["Bodovino/app/constants/ActionTypes.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var types=require('Bodovino/app/constants/ActionTypes.js');
-
-
-exports.setRating = function(payload){
-return {
-type:types.SET_RATING,
-payload:payload};};
 });
 __d('normalizr/lib/index.js',["normalizr/lib/EntitySchema.js","normalizr/lib/ArraySchema.js","lodash/lang/isObject.js","lodash/lang/isEqual.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
