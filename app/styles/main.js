@@ -39,11 +39,11 @@ module.exports = StyleSheet.create({
     padding: 10
   },
   searchBar: {
-    flex: 1,
     alignItems: 'center',
     backgroundColor: '#37202F',
-    padding: 20,
-    color: '#a29bb9'
+    color: '#a29bb9',
+    padding: 10,
+    height: 40
   },
   searchText: {
   }

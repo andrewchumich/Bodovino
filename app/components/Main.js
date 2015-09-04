@@ -26,11 +26,23 @@ class Main extends Component {
         super(props)
     }
 
-
     render() {
-        var { wines } = this.props;
+        var { wines, form } = this.props;
+        var filtered_wines = {};
+        if(form.wineSearch && form.wineSearch.name && form.wineSearch.name.value !== '') {
+            var regex = new RegExp(form.wineSearch.name.value, 'i');
+            for(wine in wines.wines) {
+                if(wines.wines[wine].name.search(regex) > -1) {
+                    filtered_wines = {...filtered_wines };
+                    filtered_wines[wine] = wines.wines[wine]
+                }
+            }
+        } else {
+            filtered_wines = {...wines.wines};
+        }
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        var wine_list = ds.cloneWithRows(wines.wines);
+        var wine_list = ds.cloneWithRows(filtered_wines);
+        console.log(wine_list);
         return (
             <View>
                 <ListView
@@ -85,7 +97,8 @@ class Main extends Component {
 function mapStateToProps(state) {
     return {
         wines: state.wines,
-        ratings: state.ratings
+        ratings: state.ratings,
+        form: state.form
     };
 }
 
