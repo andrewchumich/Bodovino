@@ -30,21 +30,23 @@ class Main extends Component {
         var { wines, form } = this.props;
         var filtered_wines = {};
         if(form.wineSearch && form.wineSearch.name && form.wineSearch.name.value !== '') {
-            var regex = new RegExp(form.wineSearch.name.value, 'i');
+            var regex = new RegExp(form.wineSearch.name.value.trim(), 'i');
             for(wine in wines.wines) {
                 if(wines.wines[wine].name.search(regex) > -1) {
                     filtered_wines = {...filtered_wines };
                     filtered_wines[wine] = wines.wines[wine]
                 }
             }
+            if(Object.keys(filtered_wines).length === 0)  {
+                filtered_wines = {0: undefined }
+            }
         } else {
             filtered_wines = {...wines.wines};
         }
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         var wine_list = ds.cloneWithRows(filtered_wines);
-        console.log(wine_list);
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <ListView
                     dataSource={wine_list}
                     renderRow={this._renderRow.bind(this)}
@@ -64,6 +66,9 @@ class Main extends Component {
     }
 
     _renderRow(rowData, sectionID, rowID) {
+        if(rowData === undefined) {
+            return <View></View>;
+        }
         var { name, variety, origin, id } = rowData; 
         var rating = this.props.ratings[id];
         var checkedStatus, colorSource;

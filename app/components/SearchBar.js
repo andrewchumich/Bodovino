@@ -28,14 +28,12 @@ class SearchBar extends Component {
     render() {
         var { fields: {name} } = this.props;
         return (
-            <View>
-                <TextInput 
-                    style={styles.searchBar}
-                    onChangeText={(text) => this._onChange(text)}
-                    placeholder="search..."
-                    placeholderTextColor="#a29bb9"
-                />
-            </View>
+            <TextInput 
+                style={styles.searchBar}
+                onChangeText={(text) => this._onChange(text)}
+                placeholder="search..."
+                placeholderTextColor="#a29bb9"
+            />
         )
     }
 
