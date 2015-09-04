@@ -73624,7 +73624,8 @@ React.createElement(View,{style:styles.infoBox},
 React.createElement(Image,{
 style:styles.fullImage,
 source:{uri:wine.image},
-resizeMode:'contain'}),
+resizeMode:'contain',
+backgroundColor:'#ffffff'}),
 
 React.createElement(View,{style:styles.detailsList},
 React.createElement(Text,{style:styles.wineProperties},wine.origin),
