@@ -50,7 +50,6 @@ class Main extends Component {
                             <Image source={colorSource} style={styles.thumb}/>
                             <Text >{ wine.variety }</Text>
                         </View>
-                        <Text style={styles.wineProperties}>{ wine.description }</Text>
                     </View>
                 </View>
                 <View styles={styles.description}>

@@ -22,8 +22,7 @@ module.exports = StyleSheet.create({
     paddingBottom: 10
   },
   detailsList: {
-    fontSize: 15,
-    color: '#fff'
+    flex: 1
   },
   textContainer: {
     flexDirection: 'column',

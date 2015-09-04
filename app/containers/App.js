@@ -4,6 +4,7 @@ var reducers = require('../reducers')
 var WineApp = require('./WineApp')
 var thunkMiddleware = require('redux-thunk')
 var loggerMiddleware = require('redux-logger')
+var ReduxForm = require('redux-form');
 
 var {
     Provider
@@ -28,7 +29,7 @@ const createStoreWithMiddleware = applyMiddleware(
   loggerMiddleware // neat middleware that logs actions
 )(createStore);
 
-console.log(reducers);
+reducers = {...reducers, form: ReduxForm.reducer };
 var reducer = combineReducers(reducers);
 var store = createStoreWithMiddleware(reducer)
 

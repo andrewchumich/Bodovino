@@ -2,6 +2,7 @@ var React = require('react-native');
 var Redux = require('redux');
 var { DETAIL } = require('../routes');
 var styles = require('../styles/main.js');
+var SearchBar = require('./SearchBar');
 
 var {
     connect
@@ -31,12 +32,14 @@ class Main extends Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         var wine_list = ds.cloneWithRows(wines.wines);
         return (
-            <ListView 
-                style={styles.list}
-                dataSource={wine_list}
-                renderRow={this._renderRow.bind(this)}
-                renderSeparator={() => <View style={styles.separator} />}
-            />
+            <View>
+                <ListView
+                    dataSource={wine_list}
+                    renderRow={this._renderRow.bind(this)}
+                    renderSeparator={() => <View style={styles.separator} />}
+                    renderSectionHeader={() => <SearchBar />}
+                />
+            </View>
         )
     }
 
@@ -62,18 +65,16 @@ class Main extends Component {
         }
         return (
             <TouchableHighlight onPress={() => this._detailView(rowData)}>
-                <View>
-                    <View style={styles.rowContainer}>
-                        <Image source={colorSource} style={styles.thumb}/>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.title} numberOfLines={1}>
-                                {name}
-                            </Text>
-                            <Text style={styles.description} numberOfLines={1}>
-                                {origin}
-                            </Text>
-                            {checkedStatus}
-                        </View>
+                <View style={styles.rowContainer}>
+                    <Image source={colorSource} style={styles.thumb}/>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title} numberOfLines={1}>
+                            {name}
+                        </Text>
+                        <Text style={styles.description} numberOfLines={1}>
+                            {origin}
+                        </Text>
+                        {checkedStatus}
                     </View>
                 </View>
             </TouchableHighlight>
