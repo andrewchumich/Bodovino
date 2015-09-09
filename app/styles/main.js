@@ -1,4 +1,9 @@
 var { StyleSheet } = require('react-native');
+var React = require('react-native');
+
+var {
+  PixelRatio
+} = React;
 
 module.exports = StyleSheet.create({
   thumb: {
@@ -46,6 +51,36 @@ module.exports = StyleSheet.create({
     height: 40
   },
   searchText: {
-  }
+  },
+  button: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderBottomWidth: 1 / PixelRatio.get(),
+    borderBottomColor: '#CDCDCD',
+  },
+  buttonText: {
+    fontSize: 17,
+    fontWeight: '500',
+  },
+  navBar: {
+    backgroundColor: '#37202F',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    fontWeight: '500',
+    marginVertical: 9,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#a29bb9',
+  },
 });
 

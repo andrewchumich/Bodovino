@@ -1,6 +1,10 @@
 var { StyleSheet } = require('react-native');
 
 module.exports = StyleSheet.create({
+  main: {
+    flex: 1,
+    marginTop: 22,
+  },
   thumb: {
     width: 40,
     height: 40,
@@ -32,7 +36,6 @@ module.exports = StyleSheet.create({
   detail: {
     flex: 1,
     padding: 10,
-    marginTop: 22,
     backgroundColor: '#b7b7b7'    
   },
   infoBox: {
