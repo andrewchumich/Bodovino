@@ -5,6 +5,7 @@ var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
 var styles = require('../styles/wineDetail');
 var StarRating = require('./StarRating');
+var NavBar = require('./NavBar');
 
 var {
     connect
@@ -13,11 +14,13 @@ var {
 var {
     Component,
     View,
+    ScrollView,
     ListView,
     Text,
     TouchableOpacity,
     TouchableHighlight,
-    Image
+    Image,
+    PixelRatio
     } = React
 
 
@@ -28,7 +31,7 @@ class Main extends Component {
 
 
     render() {
-        var { wine, rating } = this.props;
+        var { wine, rating, navigator } = this.props;
         if(rating === undefined) {
             rating = { score: undefined }
         }
@@ -38,28 +41,31 @@ class Main extends Component {
             colorSource = require('image!bodovino-white');
         }
         return (
-            <View style={styles.detail}>
-                <Text style={styles.title}>{ wine.name }</Text>
-                <View style={styles.infoBox}>
-                    <Image 
-                        style={styles.fullImage}
-                        source={{uri: wine.image}}
-                        resizeMode='contain'
-                        backgroundColor='#ffffff'
-                    />
-                    <View style={styles.detailsList}>
-                        <Text style={styles.wineProperties}>{ wine.origin }</Text>
-                        <View style={styles.wineProperties}>
-                            <Image source={colorSource} style={styles.thumb}/>
-                            <Text >{ wine.variety }</Text>
+            <View style={styles.main}>
+                <NavBar navigator={navigator} />
+                <ScrollView style={styles.detail}>
+                    <Text style={styles.title}>{ wine.name }</Text>
+                    <View style={styles.infoBox}>
+                        <Image 
+                            style={styles.fullImage}
+                            source={{uri: wine.image}}
+                            resizeMode='contain'
+                            backgroundColor='#ffffff'
+                        />
+                        <View style={styles.detailsList}>
+                            <Text style={styles.wineProperties}>{ wine.origin }</Text>
+                            <View style={styles.wineProperties}>
+                                <Image source={colorSource} style={styles.thumb}/>
+                                <Text >{ wine.variety }</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-                <View styles={styles.description}>
-                    <Text style={styles.wineProperties}>{ wine.description }</Text>
-                </View>
-                <View style={styles.separator} />
-                <StarRating rating={rating} onRate={this._rateWine.bind(this)} />
+                    <View styles={styles.description}>
+                        <Text style={styles.wineProperties}>{ wine.description }</Text>
+                    </View>
+                    <View style={styles.separator} />
+                    <StarRating rating={rating} onRate={this._rateWine.bind(this)} />
+                </ScrollView>
             </View>
         )
     }
@@ -75,6 +81,11 @@ class Main extends Component {
         var normalized_rating = normalize(rating, Schema.wine);
         this.props.dispatch(setRating(normalized_rating));
     }
+}
+
+
+Main.propTypes = {
+    navigator: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, props) {
