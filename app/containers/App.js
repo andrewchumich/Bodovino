@@ -23,9 +23,9 @@ var {
     View
     } = React
 
-// we will want to remove logger middleware on release
+// we will want to remove logger middleware on releases
 const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware, // lets us dispatch() functions
+  thunkMiddleware, // lets us dispatch() functions instead of just objects which is crucial for async actions
   loggerMiddleware // neat middleware that logs actions
 )(createStore);
 
@@ -36,6 +36,7 @@ var store = createStoreWithMiddleware(reducer)
 class App extends Component {
     render() {
         // the provider tag hooks up the app to listen for changes in state (store)
+        // this is from Redux
         return (
             <Provider store={store}>
                 {function () {
