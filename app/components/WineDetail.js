@@ -72,11 +72,9 @@ class Main extends Component {
 
     _rateWine(score) {
         var { wine } = this.props;
-        console.log(score);
         var rating = {
             id: wine.id,
-            score: score,
-            checked: true
+            score: score
         }
         var normalized_rating = normalize(rating, Schema.wine);
         this.props.dispatch(setRating(normalized_rating));

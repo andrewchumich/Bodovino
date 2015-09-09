@@ -19,7 +19,7 @@ class StarRating extends Component {
     }
 
     render() {
-        var { rating, onRate, numStars } = this.props;
+        var { rating, onRate, numStars, viewOnly } = this.props;
         if(numStars === undefined || numStars === null || numStars < 1) {
             numStars = 5;
         }
@@ -27,7 +27,9 @@ class StarRating extends Component {
         for (var i = 0; i < numStars; i++) {
             starsList.push(this._renderStar(i+1));
         };
-        starsList.push(this._renderClear());
+        if(viewOnly !== true) {
+            starsList.push(this._renderClear());
+        }
         return (
             <View style={styles.ratingContainer}>
                 {starsList}
@@ -95,7 +97,8 @@ StarRating.propTypes = {
     rating: React.PropTypes.object.isRequired,
     onRate: React.PropTypes.func,
     numStars: React.PropTypes.number,
-    size: React.PropTypes.string
+    size: React.PropTypes.string,
+    viewOnly: React.PropTypes.bool
 }
 
 module.exports = StarRating

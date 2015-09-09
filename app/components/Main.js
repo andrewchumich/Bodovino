@@ -85,8 +85,9 @@ class Main extends Component {
         var rating = this.props.ratings[id];
         var checkedStatus, colorSource;
         var ratingChild;
-        if(rating !== undefined && rating.checked === true) {
-            ratingChild = <StarRating rating={rating} size="small"/>
+        // ratings of 0 or undefined should be treated as 'unrated'
+        if(rating !== undefined && rating.score !== undefined && rating.score !== 0) {
+            ratingChild = <StarRating rating={rating} viewOnly={true} size="small"/>
         }
         // React Native does not allow you to use a variable for the require statement
         if(rowData.color === 'red') {
