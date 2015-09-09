@@ -27,6 +27,7 @@ class StarRating extends Component {
         for (var i = 0; i < numStars; i++) {
             starsList.push(this._renderStar(i+1));
         };
+        starsList.push(this._renderClear());
         return (
             <View style={styles.ratingContainer}>
                 {starsList}
@@ -58,6 +59,27 @@ class StarRating extends Component {
                     <Image source={starImage} style={starStyle}/>
                 </TouchableOpacity>
             );
+    }
+
+    _renderClear() {
+        var { onClear, size } = this.props;
+        var starStyle = styles.thumb;
+        var clearImage = require('image!no-icon');
+        if (size !== undefined && size !== null) {
+            switch(size) {
+                case 'small':
+                    starStyle = styles.smallImage;
+                    break;
+                default:
+                    starStyle = styles.thumb;
+                    break;
+            }
+        }
+        return (
+                <TouchableOpacity style={styles.rating} onPress={() => this._onRate(0)}>
+                    <Image source={clearImage} style={starStyle}/>
+                </TouchableOpacity>
+            );        
     }
 
     _onRate(value) {
