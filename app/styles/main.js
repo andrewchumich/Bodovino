@@ -44,9 +44,12 @@ module.exports = StyleSheet.create({
     padding: 10
   },
   searchBar: {
+    borderStyle: 'solid',
+    borderColor: '#000',
+    borderRadius: 15
+  },
+  searchBarText: {
     alignItems: 'center',
-    backgroundColor: '#37202F',
-    color: '#a29bb9',
     padding: 10,
     height: 40
   },
