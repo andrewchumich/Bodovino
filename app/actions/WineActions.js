@@ -19,11 +19,3 @@ exports.sortByNameAsc = function() {
     type: types.SORT_BY_NAME_ASC
   };
 }
-
-exports.toggleFilter = function(field, value) {
-  return {
-    type: types.TOGGLE_FILTER,
-    field,
-    value
-  };
-}

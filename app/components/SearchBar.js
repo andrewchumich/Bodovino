@@ -59,7 +59,7 @@ function mapStateToProps(state, ownProps) {
 
 SearchBar = reduxForm.default({
   form: 'wineSearch',
-  fields: ['name', 'rating']
+  fields: ['name']
 })(SearchBar);
 
 SearchBar = connect(mapStateToProps)(SearchBar);
