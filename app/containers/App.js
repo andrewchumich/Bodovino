@@ -5,6 +5,7 @@ var WineApp = require('./WineApp')
 var thunkMiddleware = require('redux-thunk')
 var loggerMiddleware = require('redux-logger')
 var ReduxForm = require('redux-form');
+var { TOGGLE_FILTER } = require('../constants/ActionTypes');
 
 var {
     Provider
@@ -29,7 +30,27 @@ const createStoreWithMiddleware = applyMiddleware(
   loggerMiddleware // neat middleware that logs actions
 )(createStore);
 
-reducers = {...reducers, form: ReduxForm.reducer };
+reducers = { 
+        ...reducers,
+        form: ReduxForm.reducer.plugin({
+            wineSearch: (state, action) => {
+                switch(action.type) {
+                    case TOGGLE_FILTER:
+                        var newState = {...state};
+                        if(state[action.value]) {
+                            newState[action.value].value = (state[action.value].value === undefined) ? 0 : undefined;;
+                        } else {
+                            newState[action.value] = {
+                                value: 0
+                            };
+                        }
+                        return newState;
+                    default:
+                        return state;
+                }
+            }
+        }) 
+    };
 var reducer = combineReducers(reducers);
 var store = createStoreWithMiddleware(reducer)
 

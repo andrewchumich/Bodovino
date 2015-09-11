@@ -4,6 +4,8 @@ var { DETAIL } = require('../routes');
 var styles = require('../styles/main.js');
 var SearchBar = require('./SearchBar');
 var StarRating = require('./StarRating');
+var { change } = require('redux-form');
+var { toggleFilter } = require('../actions/WineActions');
 
 var {
     connect
@@ -28,27 +30,17 @@ class Main extends Component {
     }
 
     render() {
-        var { wines, form } = this.props;
-        var filtered_wines = {};
-        // If there is a filter from wineSearch, use it to filter the wines list
-        // else, use the entire list
-        if(form.wineSearch && form.wineSearch.name && form.wineSearch.name.value !== '') {
-            var regex = new RegExp(form.wineSearch.name.value.trim(), 'i');
-            for(wine in wines.wines) {
-                if(wines.wines[wine].name.search(regex) > -1) {
-                    filtered_wines = {...filtered_wines };
-                    filtered_wines[wine] = wines.wines[wine]
-                }
+        var { wines, form, dispatch, ratings } = this.props;
+        var filtered_wines = {...wines.wines};
+        // ALC - this filter thing is really convoluted. Hopefully there is a better
+        // way to do this...
+        if(form.wineSearch) {
+            if(form.wineSearch.name) {
+                filtered_wines = this._filter(filtered_wines, 'name', form.wineSearch.name.value);
             }
-            // ListView will remove the entire component (with its header) if 
-            // there are no items in the list. We need to add an undefined item
-            // in filtered_wines so it will still render the filter header
-            // SEE: _renderRow
-            if(Object.keys(filtered_wines).length === 0)  {
-                filtered_wines = {0: undefined }
+            if(form.wineSearch.rating) {
+                filtered_wines = this._filterByRating(filtered_wines, ratings, form.wineSearch.rating.value);
             }
-        } else {
-            filtered_wines = {...wines.wines};
         }
         // as long as we always return new objects from our reducers (using Immutable.js would ensure this)
         // we only need to check reference equality to determine if a row needs re-rendered
@@ -64,8 +56,53 @@ class Main extends Component {
                     renderSeparator={() => <View style={styles.separator} />}
                     renderSectionHeader={() => <SearchBar />}
                 />
+                <View>
+                    <TouchableOpacity onPress={() => dispatch(toggleFilter('wineSearch', 'rating'))}>
+                        <Text>My Wines</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
+    }
+
+    _filter(wines, key, value) {
+        var filtered_wines = {};
+        var regex = new RegExp(value.trim(), 'i');
+        for(wine in wines) {
+            if(wines[wine][key].search(regex) > -1) {
+                filtered_wines = {...filtered_wines};
+                filtered_wines[wine] = wines[wine]
+            }
+        }
+        // ListView will remove the entire component (with its header) if 
+        // there are no items in the list. We need to add an undefined item
+        // in filtered_wines so it will still render the filter header
+        // SEE: _renderRow
+        if(Object.keys(filtered_wines).length === 0)  {
+            filtered_wines = {0: undefined}
+        }
+        return filtered_wines;
+    }
+
+    _filterByRating(wines, ratings, score) {
+        if(score === undefined) {
+            return {...wines};
+        }
+        var filtered_wines = {};
+        for(wine in wines) {
+            if(ratings[wine] && ratings[wine].score > score) {
+                filtered_wines = {...filtered_wines};
+                filtered_wines[wine] = wines[wine]
+            }
+        }
+        // ListView will remove the entire component (with its header) if 
+        // there are no items in the list. We need to add an undefined item
+        // in filtered_wines so it will still render the filter header
+        // SEE: _renderRow
+        if(Object.keys(filtered_wines).length === 0)  {
+            filtered_wines = {0: undefined }
+        }
+        return filtered_wines;
     }
 
     _detailView(wine) {

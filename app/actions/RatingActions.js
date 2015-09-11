@@ -7,3 +7,4 @@ exports.setRating = function(payload) {
     payload
   };
 }
+
