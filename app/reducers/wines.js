@@ -1,4 +1,4 @@
-var { SORT_BY_NAME_ASC, SORT_BY_NAME_DESC, ADD_WINES } = require('../constants/ActionTypes');
+var { ADD_WINES, EDIT_WINE } = require('../constants/ActionTypes');
 // eventually convert to immutablejs
 // var { OrderedMap, Map } = require('immutable');
 
@@ -10,7 +10,11 @@ var initialState = {
 function wines(state = initialState, action) {
   switch (action.type) {
   case ADD_WINES:
-    return {...state, wines: {...state.wines, ...action.payload.entities.wines} };
+    return {...state, wines: {...state.wines, ...action.payload} };
+  case EDIT_WINE:
+    var newWines = { ...state.wines };
+    newWines[action.payload.id] = {...action.payload};
+    return {...state, wines: newWines };
   default:
     return state;
   }

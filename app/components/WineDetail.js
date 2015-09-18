@@ -1,6 +1,6 @@
 var React = require('react-native');
 var Redux = require('redux');
-var { setRating } = require('../actions/RatingActions');
+var { editWine } = require('../actions/WineActions');
 var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
 var styles = require('../styles/wineDetail');
@@ -31,9 +31,9 @@ class Main extends Component {
 
 
     render() {
-        var { wine, rating, navigator } = this.props;
-        if(rating === undefined) {
-            rating = { score: undefined }
+        var { wine, navigator } = this.props;
+        if(wine.rating === undefined) {
+            wine.rating = { score: undefined }
         }
         if(wine.color === 'red') {
             colorSource = require('image!bodovino-red');
@@ -64,7 +64,7 @@ class Main extends Component {
                         <Text style={styles.wineProperties}>{ wine.description }</Text>
                     </View>
                     <View style={styles.separator} />
-                    <StarRating rating={rating} onRate={this._rateWine.bind(this)} />
+                    <StarRating rating={wine.rating} onRate={this._rateWine.bind(this)} />
                 </ScrollView>
             </View>
         )
@@ -72,23 +72,24 @@ class Main extends Component {
 
     _rateWine(score) {
         var { wine } = this.props;
-        var rating = {
+        wine.rating = {
+            ...wine.rating,
             id: wine.id,
             score: score
         }
-        var normalized_rating = normalize(rating, Schema.wine);
-        this.props.dispatch(setRating(normalized_rating));
+        this.props.dispatch(editWine(wine));
     }
 }
 
 
 Main.propTypes = {
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    wineID: React.PropTypes.number.isRequired
 }
 
 function mapStateToProps(state, props) {
     return {
-        rating: state.ratings[props.wine.id]
+        wine: state.wines.wines[props.wineID]
     };
 }
 

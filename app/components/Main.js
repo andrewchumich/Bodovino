@@ -68,11 +68,11 @@ class Main extends Component {
         )
     }
 
-    _detailView(wine) {
+    _detailView(wineID) {
         // we will also want to pass user data for the wine
         this.props.navigator.push({
             id: DETAIL,
-            wine
+            wineID
         })
     }
 
@@ -81,8 +81,7 @@ class Main extends Component {
         if(rowData === undefined) {
             return <View></View>;
         }
-        var { name, variety, origin, id } = rowData; 
-        var rating = this.props.ratings[id];
+        var { name, variety, origin, id, rating } = rowData; 
         var checkedStatus, colorSource;
         var ratingChild;
         // ratings of 0 or undefined should be treated as 'unrated'
@@ -96,7 +95,7 @@ class Main extends Component {
             colorSource = require('image!bodovino-white');
         }
         return (
-            <TouchableHighlight onPress={() => this._detailView(rowData)}>
+            <TouchableHighlight onPress={() => this._detailView(id)}>
                 <View style={styles.rowContainer}>
                     <Image source={colorSource} style={styles.thumb}/>
                     <View style={styles.textContainer}>
@@ -117,7 +116,6 @@ class Main extends Component {
 function mapStateToProps(state) {
     return {
         wines: state.wines,
-        ratings: state.ratings,
         form: state.form
     };
 }

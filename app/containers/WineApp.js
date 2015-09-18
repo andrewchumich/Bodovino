@@ -5,6 +5,7 @@ var WineDetail = require('../components/WineDetail');
 var { MAIN, DETAIL } = require('../routes');
 var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
+var { initializeData } = require('../dataMapper');
 
 var {
     connect
@@ -56,21 +57,8 @@ class WineApp extends Component {
     // we will want to load from local storage first and then merge the server data
     // so that ratings can be saved
     componentWillMount () {
-      fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine&filter[posts_per_page]=50').then((response) => {
-        var new_wines = JSON.parse(response._bodyText).map((wine) => {
-          return {
-            id: wine.ID,
-            name: wine.title,
-            description: wine.wine_description,
-            variety: wine.wine_variety,
-            origin: wine.wine_origin,
-            image: wine.wine_image.guid,
-            color: wine.wine_color
-          }
-        });
-        // normalize the wine data so it is flat and organized
-        var normalized_wines = normalize(new_wines, arrayOf(Schema.wine));
-        this.props.dispatch(addWines(normalized_wines));
+      initializeData().then((wines) => {
+        this.props.dispatch(addWines(wines));
       });
     }
 
@@ -98,7 +86,7 @@ class WineApp extends Component {
             return (
               <WineDetail 
                 navigator={navigator}
-                wine={route.wine} 
+                wineID={route.wineID} 
               />
             )
           default: 
