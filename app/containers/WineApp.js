@@ -65,7 +65,12 @@ class WineApp extends Component {
             variety: wine.wine_variety,
             origin: wine.wine_origin,
             image: wine.wine_image.guid,
-            color: wine.wine_color
+            color: wine.wine_color,
+            rating: {
+              user_id: 'uuid',
+              score: 3,
+              notes: '',
+            }
           }
         });
         // normalize the wine data so it is flat and organized

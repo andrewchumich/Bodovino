@@ -8,6 +8,13 @@ exports.addWines = function(payload) {
   };
 }
 
+exports.editWine = function(payload) {
+  return {
+    type: types.EDIT_WINE,
+    payload
+  };
+}
+
 exports.sortByNameDesc = function() {
   return {
     type: types.SORT_BY_NAME_DESC
@@ -19,3 +26,4 @@ exports.sortByNameAsc = function() {
     type: types.SORT_BY_NAME_ASC
   };
 }
+

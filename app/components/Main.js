@@ -81,8 +81,7 @@ class Main extends Component {
         if(rowData === undefined) {
             return <View></View>;
         }
-        var { name, variety, origin, id } = rowData; 
-        var rating = this.props.ratings[id];
+        var { name, variety, origin, id, rating } = rowData; 
         var checkedStatus, colorSource;
         var ratingChild;
         // ratings of 0 or undefined should be treated as 'unrated'
@@ -117,7 +116,6 @@ class Main extends Component {
 function mapStateToProps(state) {
     return {
         wines: state.wines,
-        ratings: state.ratings,
         form: state.form
     };
 }

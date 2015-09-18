@@ -13,7 +13,7 @@ var sample_rating = {
   notes: 'some notes'
 }
 
-function wines(state = initialState, action) {
+function ratings(state = initialState, action) {
   switch (action.type) {
   case SET_RATING:
     return {...state, ...action.payload.entities.wines };
@@ -22,4 +22,4 @@ function wines(state = initialState, action) {
   }
 }
 
-module.exports = wines;
+module.exports = ratings;
