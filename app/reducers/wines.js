@@ -10,7 +10,7 @@ var initialState = {
 function wines(state = initialState, action) {
   switch (action.type) {
   case ADD_WINES:
-    return {...state, wines: {...state.wines, ...action.payload.entities.wines} };
+    return {...state, wines: {...state.wines, ...action.payload} };
   case EDIT_WINE:
     var newWines = { ...state.wines };
     newWines[action.payload.id] = {...action.payload};
