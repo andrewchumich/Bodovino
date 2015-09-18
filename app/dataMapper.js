@@ -1,13 +1,34 @@
 var { normalize, arrayOf } = require('normalizr');
 var Schema = require('./schema');
+var Promise = require('bluebird');
+var DB = require('./DB');
+// DB Emitter Initialized
+
+var DBEvents = require('react-native-db-models').DBEvents
+// Only "all" event emitter is available
+
+DBEvents.on("all", function(){
+    console.log("Database changed");
+})
 
 function initializeData() {
-  return fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine&filter[posts_per_page]=50').then((response) => {
-    return apiToWines(JSON.parse(response._bodyText));
-  }).then((wines) => {
-    // get ratings from local storage
-    var ratings = {};
+
+  var apiData = fetch('http://bodovino.zerrtech.com/wp-json/posts?type=wine&filter[posts_per_page]=50').then((response) => {
+      return apiToWines(JSON.parse(response._bodyText));
+  });
+  var ratingsData = getRatingsFromStorage();
+
+  return Promise.all([apiData, ratingsData]).then(([wines, ratings]) => {
+    console.log(ratings);
     return mergeWinesAndRatings(wines, ratings);
+  });
+}
+
+function getRatingsFromStorage(callback) {
+  return new Promise((resolve, reject) => {
+    DB.ratings.get_all((data) => {
+      resolve(data.rows);
+    });
   });
 }
 
