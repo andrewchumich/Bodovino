@@ -83,12 +83,13 @@ class Main extends Component {
 
 
 Main.propTypes = {
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    wineID: React.PropTypes.number.isRequired
 }
 
 function mapStateToProps(state, props) {
     return {
-        rating: state.ratings[props.wine.id]
+        wine: state.wines.wines[props.wineID]
     };
 }
 

@@ -68,7 +68,7 @@ class WineApp extends Component {
             color: wine.wine_color,
             rating: {
               user_id: 'uuid',
-              score: 3,
+              score: undefined,
               notes: '',
             }
           }
@@ -103,7 +103,7 @@ class WineApp extends Component {
             return (
               <WineDetail 
                 navigator={navigator}
-                wine={route.wine} 
+                wineID={route.wineID} 
               />
             )
           default: 

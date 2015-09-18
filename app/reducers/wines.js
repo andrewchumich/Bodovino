@@ -12,8 +12,9 @@ function wines(state = initialState, action) {
   case ADD_WINES:
     return {...state, wines: {...state.wines, ...action.payload.entities.wines} };
   case EDIT_WINE:
-    console.log(action.payload);
-    return {...state, wines: {...state.wines, action['payload']['id']: action.payload } };
+    var newWines = { ...state.wines };
+    newWines[action.payload.id] = {...action.payload};
+    return {...state, wines: newWines };
   default:
     return state;
   }
