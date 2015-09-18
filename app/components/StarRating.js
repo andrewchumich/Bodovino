@@ -1,6 +1,5 @@
 var React = require('react-native');
 var Redux = require('redux');
-var { setRating } = require('../actions/RatingActions');
 var styles = require('../styles/starRating');
 
 var {
