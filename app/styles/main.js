@@ -34,6 +34,7 @@ module.exports = StyleSheet.create({
     color: '#fff'
   },
   rowContainer: {
+    flex: 1,
     flexDirection: 'row',
     padding: 10,
     backgroundColor: '#b7b7b7'
@@ -44,12 +45,10 @@ module.exports = StyleSheet.create({
     padding: 10
   },
   searchBar: {
-    borderStyle: 'solid',
-    borderColor: '#000',
-    borderRadius: 15
+    flex: 1,
+    backgroundColor: '#fff',
   },
   searchBarText: {
-    alignItems: 'center',
     padding: 10,
     height: 40
   },

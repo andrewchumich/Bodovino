@@ -58,6 +58,9 @@ class Main extends Component {
             <View style={{flex: 1}}>
                 <ListView
                     dataSource={wine_list}
+                    // stupid undocumented feature
+                    // http://stackoverflow.com/questions/29496054/react-native-listview-leaving-space
+                    automaticallyAdjustContentInsets={false}
                     // if we want access to props (or anything specific to the current Main class object)
                     // we need to bind `this` to the _renderRow function
                     renderRow={this._renderRow.bind(this)}

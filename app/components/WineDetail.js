@@ -5,7 +5,6 @@ var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
 var styles = require('../styles/wineDetail');
 var StarRating = require('./StarRating');
-var NavBar = require('./NavBar');
 
 var {
     connect
@@ -31,7 +30,7 @@ class Main extends Component {
 
 
     render() {
-        var { wine, navigator } = this.props;
+        var { wine } = this.props;
         if(wine.rating === undefined) {
             wine.rating = { score: undefined }
         }
@@ -42,7 +41,6 @@ class Main extends Component {
         }
         return (
             <View style={styles.main}>
-                <NavBar navigator={navigator} />
                 <ScrollView style={styles.detail}>
                     <Text style={styles.title}>{ wine.name }</Text>
                     <View style={styles.infoBox}>
@@ -83,7 +81,6 @@ class Main extends Component {
 
 
 Main.propTypes = {
-    navigator: React.PropTypes.object.isRequired,
     wineID: React.PropTypes.number.isRequired
 }
 

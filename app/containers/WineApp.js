@@ -6,6 +6,7 @@ var { MAIN, DETAIL } = require('../routes');
 var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
 var { initializeData } = require('../dataMapper');
+var NavBar = require('react-native-navbar');
 
 var {
     connect
@@ -13,40 +14,14 @@ var {
 
 var {
     Component,
-    Navigator
+    Navigator,
+    View,
+    Text
     } = React
 
 var {
     addWines
 } = require('../actions/WineActions');
-
-// var mock_wines = [
-//   {
-//     id: 'a0',
-//     name: 'barnyard wine',
-//     variety: 'merlot',
-//     origin: 'Napa, CA',
-//     description: 'so much flavor',
-//     image: 'http://example.com/images/barnyard.jpg'
-//   },
-//   {
-//     id: 'b1',
-//     name: 'Two Buck Chuck',
-//     variety: 'Cabernet Sauvignon',
-//     origin: 'Boise, ID',
-//     description: 'very cheap!',
-//     image: 'http://example.com/images/chuck.jpg'
-//   },
-//   {
-//     id: 'c2',
-//     name: 'Franzia',
-//     variety: 'merlot',
-//     origin: 'Napa, CA',
-//     description: 'comes in a bag',
-//     image: 'http://example.com/images/franzia.jpg'
-//   }
-
-// ];
 
 
 class WineApp extends Component {
@@ -64,10 +39,13 @@ class WineApp extends Component {
 
     render() {
         return (
-          <Navigator
-            initialRoute={{ id: MAIN }}
-            renderScene={this._renderScene}
-          />
+            <Navigator
+              renderScene={this._renderScene}
+              initialRoute={{
+                navigationBar: <NavBar title="Initial View"/>,
+                id: MAIN
+              }}
+            />
         );
     }
 
@@ -75,17 +53,27 @@ class WineApp extends Component {
     // the route is just a plain object and contains
     // parameters to help the next component render
     _renderScene(route, navigator) {
+        var nav = route.navigationBar;
+        if(route.navigationBar) {
+          nav = React.addons.cloneWithProps(nav, {
+                  navigator: navigator,
+                  route: route
+                });
+        }
+
         switch(route.id) {
           case MAIN:
             return (
+              <View>
+                {nav}
                 <Main 
                   navigator={navigator}
                 />
+              </View>
               )
           case DETAIL:
             return (
               <WineDetail 
-                navigator={navigator}
                 wineID={route.wineID} 
               />
             )
