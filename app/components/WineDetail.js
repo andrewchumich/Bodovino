@@ -81,12 +81,12 @@ class Main extends Component {
 
 
 Main.propTypes = {
-    wineID: React.PropTypes.number.isRequired
+    route: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, props) {
     return {
-        wine: state.wines.wines[props.wineID]
+        wine: state.wines.wines[props.route.wineID]
     };
 }
 

@@ -1,9 +1,12 @@
 var React = require('react-native');
 var Redux = require('redux');
-var { DETAIL } = require('../routes');
+var WineDetail = require('./WineDetail');
 var styles = require('../styles/main.js');
 var SearchBar = require('./SearchBar');
 var StarRating = require('./StarRating');
+var NavBar = require('react-native-navbar');
+var NavStyle = require('../styles/navBar');
+
 
 var {
     connect
@@ -74,7 +77,11 @@ class Main extends Component {
     _detailView(wineID) {
         // we will also want to pass user data for the wine
         this.props.navigator.push({
-            id: DETAIL,
+            component: WineDetail,
+            navigationBar:  <NavBar 
+                  title="Wine Detail"
+                  style={NavStyle.navView}
+                  />,
             wineID
         })
     }

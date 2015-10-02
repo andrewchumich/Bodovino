@@ -7,6 +7,7 @@ var { normalize, arrayOf } = require('normalizr');
 var Schema = require('../schema');
 var { initializeData } = require('../dataMapper');
 var NavBar = require('react-native-navbar');
+var NavStyle = require('../styles/navBar');
 
 var {
     connect
@@ -42,8 +43,11 @@ class WineApp extends Component {
             <Navigator
               renderScene={this._renderScene}
               initialRoute={{
-                navigationBar: <NavBar title="Initial View"/>,
-                id: MAIN
+                navigationBar: <NavBar 
+                  title="Wine List"
+                  style={NavStyle.navView}
+                  />,
+                component: Main
               }}
             />
         );
@@ -53,37 +57,21 @@ class WineApp extends Component {
     // the route is just a plain object and contains
     // parameters to help the next component render
     _renderScene(route, navigator) {
-        var nav = route.navigationBar;
-        if(route.navigationBar) {
-          nav = React.addons.cloneWithProps(nav, {
-                  navigator: navigator,
-                  route: route
-                });
-        }
+      var Component = route.component;
+      var navBar = route.navigationBar;
 
-        switch(route.id) {
-          case MAIN:
-            return (
-              <View>
-                {nav}
-                <Main 
-                  navigator={navigator}
-                />
-              </View>
-              )
-          case DETAIL:
-            return (
-              <WineDetail 
-                wineID={route.wineID} 
-              />
-            )
-          default: 
-            return (
-                <Main
-                  navigator={navigator}
-                />
-              )
-          }
+      if (navBar) {
+        navBar = React.addons.cloneWithProps(navBar, {
+          navigator: navigator,
+          route: route
+        });
+      }
+      return (
+        <View style={{flex: 1}}>
+          {navBar}
+          <Component navigator={navigator} route={route} />
+        </View>
+      );
     }
 }
 

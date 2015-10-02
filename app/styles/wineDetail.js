@@ -3,7 +3,6 @@ var { StyleSheet } = require('react-native');
 module.exports = StyleSheet.create({
   main: {
     flex: 1,
-    marginTop: 22,
   },
   thumb: {
     width: 40,
